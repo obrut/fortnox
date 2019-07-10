@@ -1,7 +1,7 @@
 {
-  "name": "fortnox-api",
-  "version": "0.1.0",
-  "description": "Fortnox api, inspired by https://github.com/sciolist/fortnox-api",
+  "name": "fortnox-wrapper",
+  "version": "0.1.2",
+  "description": "Unofficial Fortnox api-wrapper for customers, articles and invoices.",
   "main": "index.js",
   "files": [
     "dist"

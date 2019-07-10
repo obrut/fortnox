@@ -4,8 +4,6 @@ A Node.js module that implements, some, fortnox api functions.
 ## Installation 
 ```sh
 npm install fortnox --save
-yarn add fortnox
-bower install fortnox --save
 ```
 ## Usage
 ### Javascript
