@@ -14,7 +14,7 @@ import { Fortnox } from 'fortnox';
 const fn = new Fortnox({host: 'https://api.fortnox.se/3/', clientSecret: 'xyz', accessToken: 'zyx' })
 const aCustomer = await fn.customers.get('1');
 const allCustomers = await fn.customers.get();
-const aNewCustomer = await fn.customers.create({name: 'John McClane'});
+const aNewCustomer = await fn.customers.create({Name: 'John McClane'});
 ```
 
 ## Implemented (so far):
