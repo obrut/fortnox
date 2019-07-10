@@ -24,3 +24,8 @@ const aNewCustomer = await fn.customers.create({name: 'John McClane'});
 * Customer (create, get, update, remove)
 * Article (create, get, update, remove)
 * Invoice (create, get, update, send, cancel)
+
+Fork and add stuff!
+
+## Help
+* Documentation for Fortnox at https://developer.fortnox.se/documentation/
