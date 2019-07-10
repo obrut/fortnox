@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "description": "Fortnox api, inspired by https://github.com/sciolist/fortnox-api",
   "main": "index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "tsc",
     "test": "./node_modules/.bin/nyc ./node_modules/.bin/mocha -r ts-node/register test/*.ts"
   },
   "author": "Gustaf Ridderstolpe, Enfo Sweden AB",
