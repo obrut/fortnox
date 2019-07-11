@@ -4,7 +4,7 @@
     "outDir": "./dist",
     "sourceMap": true,
     "module": "commonjs",
-    "declaration": false,
+    "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -13,7 +13,7 @@
     "target": "es6",
     "resolveJsonModule": true,
     "esModuleInterop": true,  
-    "allowJs": true,
+    "allowJs": false,
     "typeRoots": [
       "node_modules/@types"
     ],
