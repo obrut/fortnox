@@ -6,16 +6,22 @@ export class Articles {
         this.api = api;
     }
     
-    async get(selector?: { articleNumber?: string, filter?: string }) {
-        let path = 'articles/';
-        path += (selector && selector.articleNumber) || '';
-        path += (selector && selector.filter && `?filter=${selector.filter}`) || '';
+    async get(articleNumber: string) {
+        const result = await this.api.dispatch.get(`articles/${articleNumber}`);
+        return result.Article;
+    }
 
-        return await this.api.dispatch.get(path);
+    async getAll(filter?: string) {
+        let path = 'articles/';
+        if (filter)
+            path += '?filter=' + filter;
+        const result = await this.api.dispatch.get(path);
+        return result.Articles;
     }
 
     async create(article: any) {
-        return await this.api.dispatch.post('articles', { Article: article })
+        const result = await this.api.dispatch.post('articles', { Article: article })
+        return result.Article;
     }
 
     async remove(articleNumber: string) {

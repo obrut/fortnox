@@ -7,19 +7,23 @@ export class Invoices {
     }
 
     async get(documentNumber?: string) {
-        return await this.api.dispatch.get(`invoices/${documentNumber || ''}`);
+        const result = await this.api.dispatch.get(`invoices/${documentNumber || ''}`);
+        return result.Invoice;
     }
 
     async create(invoice: any) {
-        return await this.api.dispatch.post('invoices', { Invoice: invoice })
+        const result = await this.api.dispatch.post('invoices', { Invoice: invoice })
+        return result.Invoice;
     }
 
     async send(documentNumber: string) {
-        return await this.api.dispatch.get(`invoices/${documentNumber}/email`);
+        const result = await this.api.dispatch.put(`invoices/${documentNumber}/email`, null);
+        return result.Invoice;
     }
 
     async update(invoice: any) {
-        return await this.api.dispatch.put(`invoices/${invoice.DocumentNumber}`, { Invoice: invoice });
+        const result = await this.api.dispatch.put(`invoices/${invoice.DocumentNumber}`, { Invoice: invoice });
+        return result.Invoice;
     }
 
     async remove(documentNumber: string) {

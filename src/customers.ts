@@ -6,20 +6,27 @@ export class Customers{
         this.api = api;
     }
 
-    async get(selector?: { customerNumber?: string, filter?: string }) {
-        let path = 'customers/';
-        path += (selector && selector.customerNumber) || '';
-        path += (selector && selector.filter && `?filter=${selector.filter}`) || '';
+    async get(customerNumber: string) {
+        const result: any = await this.api.dispatch.get(`customers/${customerNumber}`);
+        return result.Customer;
+    }
 
-        return await this.api.dispatch.get(path);
+    async getAll(filter?: string) {
+        let path = 'customers/';
+        if (filter)
+            path += '?filter=' + filter;
+        const result: any = await this.api.dispatch.get(path);
+        return result.Customers;
     }
 
     async create(customer: any) {
-        return await this.api.dispatch.post('customers', { Customer: customer });
+        const result = await this.api.dispatch.post('customers', { Customer: customer });
+        return result.Customer;
     }
 
     async update(customer: any) {
-        return await this.api.dispatch.put(`customers/${customer.CustomerNumber}`, { Customer: customer });
+        const result = await this.api.dispatch.put(`customers/${customer.CustomerNumber}`, { Customer: customer });
+        return result.Customer;
     }
 
     async remove(customerNumber: string) {

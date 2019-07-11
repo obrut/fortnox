@@ -24,37 +24,38 @@ describe('fortnox', () => {
 
     it('should create an article', async () => {
         const response = await fn.articles.create(anArticle);
-        newArticleNumber = response.Article.ArticleNumber;
-        assert.isObject(response.Article);
+        newArticleNumber = response.ArticleNumber;
+        assert.isObject(response);
+        assert.equal(response.Description, anArticle.Description)
     }),
     it('should return all active articles', async () => {
-        const response = await fn.articles.get({ filter: 'active' });
-        assert.isArray(response.Articles);
+        const response = await fn.articles.getAll('active');
+        assert.isArray(response);
     }),
     it('should return all articles', async () => {
-        const response = await fn.articles.get();
-        assert.isArray(response.Articles);
+        const response = await fn.articles.getAll();
+        assert.isArray(response);
     }),
     it('should return an article', async () => {
-        const response = await fn.articles.get({ articleNumber: newArticleNumber });
-        assert.equal(response.Article.Description, anArticle.Description);
+        const response = await fn.articles.get(newArticleNumber);
+        assert.equal(response.Description, anArticle.Description);
     }),
     it('should create a customer', async () => {
         const response = await fn.customers.create(aCustomer);
-        newCustomerNumber = response.Customer.CustomerNumber;
-        assert.isObject(response.Customer);
+        newCustomerNumber = response.CustomerNumber;
+        assert.isObject(response);
     }),
     it('should return active customers', async () => {
-        const response = await fn.customers.get({ filter: 'active' });
-        assert.isArray(response.Customers);
+        const response = await fn.customers.getAll('active');
+        assert.isArray(response);
     }),
     it('should return a customer', async () => {
-        const response = await fn.customers.get({ customerNumber: newCustomerNumber });
-        assert.equal(response.Customer.Name, aCustomer.Name);
+        const response = await fn.customers.get(newCustomerNumber);
+        assert.equal(response.Name, aCustomer.Name);
     }),
     it('should return all customers', async () => {
-        const response = await fn.customers.get();
-        assert.isArray(response.Customers);
+        const response = await fn.customers.getAll();
+        assert.isArray(response);
     }),
     //Commented because issuing an invoice locks customers/articles and leaves residue in the test environment.
     //Tests should be working however, just uncomment and deal with the residue.
@@ -68,12 +69,12 @@ describe('fortnox', () => {
     //         }]
     //     });
     //     assert.equal(response.Invoice.CustomerNumber, newCustomerNumber);
-    //     assert.isObject(response.Invoice);
-    //     newInvoiceNumber = response.Invoice.DocumentNumber;
+    //     assert.isObject(response);
+    //     newInvoiceNumber = response.DocumentNumber;
     // }),
     // it('should return an invoice', async () => {
     //     const response = await fn.invoices.get(newInvoiceNumber);
-    //     assert.equal(response.Invoice.CustomerNumber, newCustomerNumber);
+    //     assert.equal(response.CustomerNumber, newCustomerNumber);
     // }),
     // it('should cancel an invoice', async () => {
     //     const result = await fn.invoices.remove(newInvoiceNumber);
@@ -81,10 +82,10 @@ describe('fortnox', () => {
     // }),
     it('should remove a customer', async () => {
         const result = await fn.customers.remove(newCustomerNumber);
-        assert.isUndefined(result);
+        assert.isTrue(result);
     }),
     it('should remove an article', async () => {
         const result = await fn.articles.remove(newArticleNumber);
-        assert.isUndefined(result);
+        assert.isTrue(result);
     })
 })
