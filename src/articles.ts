@@ -1,13 +1,17 @@
 import { Fortnox } from '.';
+import { Dispatch } from './dispatch';
 
 export class Articles {
     private api: Fortnox;
+    private dispatch: Dispatch;
+    
     constructor(api: Fortnox){
         this.api = api;
+        this.dispatch = new Dispatch(api);
     }
     
     async get(articleNumber: string) {
-        const result = await this.api.dispatch.get(`articles/${articleNumber}`);
+        const result = await this.dispatch.get(`articles/${articleNumber}`);
         return result.Article;
     }
 
@@ -15,16 +19,16 @@ export class Articles {
         let path = 'articles/';
         if (filter)
             path += '?filter=' + filter;
-        const result = await this.api.dispatch.get(path);
+        const result = await this.dispatch.get(path);
         return result.Articles;
     }
 
     async create(article: any) {
-        const result = await this.api.dispatch.post('articles', { Article: article })
+        const result = await this.dispatch.post('articles', { Article: article })
         return result.Article;
     }
 
     async remove(articleNumber: string) {
-        return await this.api.dispatch.delete(`articles/${articleNumber}`);
+        return await this.dispatch.delete(`articles/${articleNumber}`);
     }
 }

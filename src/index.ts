@@ -1,4 +1,3 @@
-import { Dispatch } from './dispatch';
 import { Articles } from './articles';
 import { Customers } from './customers';
 import { Invoices } from './invoices';
@@ -20,7 +19,6 @@ export class Fortnox {
         }
     }
 
-    public dispatch: Dispatch = new Dispatch(this);
     public articles: Articles = new Articles(this);
     public customers: Customers = new Customers(this);
     public invoices: Invoices = new Invoices(this);
