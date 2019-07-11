@@ -6,8 +6,12 @@ export class Customers{
         this.api = api;
     }
 
-    async get(customerNumber?: string) {
-        return await this.api.dispatch.get(`customers/${customerNumber || ''}`);
+    async get(selector?: { customerNumber?: string, filter?: string }) {
+        let path = 'customers/';
+        path += (selector && selector.customerNumber) || '';
+        path += (selector && selector.filter && `?filter=${selector.filter}`) || '';
+
+        return await this.api.dispatch.get(path);
     }
 
     async create(customer: any) {

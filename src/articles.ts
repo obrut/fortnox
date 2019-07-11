@@ -6,8 +6,12 @@ export class Articles {
         this.api = api;
     }
     
-    async get(articleNumber?: any) {
-        return await this.api.dispatch.get(`articles/${articleNumber || ''}`);
+    async get(selector?: { articleNumber?: string, filter?: string }) {
+        let path = 'articles/';
+        path += (selector && selector.articleNumber) || '';
+        path += (selector && selector.filter && `?filter=${selector.filter}`) || '';
+
+        return await this.api.dispatch.get(path);
     }
 
     async create(article: any) {

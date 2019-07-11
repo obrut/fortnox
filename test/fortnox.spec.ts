@@ -27,12 +27,16 @@ describe('fortnox', () => {
         newArticleNumber = response.Article.ArticleNumber;
         assert.isObject(response.Article);
     }),
+    it('should return all active articles', async () => {
+        const response = await fn.articles.get({ filter: 'active' });
+        assert.isArray(response.Articles);
+    }),
     it('should return all articles', async () => {
         const response = await fn.articles.get();
         assert.isArray(response.Articles);
     }),
     it('should return an article', async () => {
-        const response = await fn.articles.get(newArticleNumber);
+        const response = await fn.articles.get({ articleNumber: newArticleNumber });
         assert.equal(response.Article.Description, anArticle.Description);
     }),
     it('should create a customer', async () => {
@@ -40,8 +44,12 @@ describe('fortnox', () => {
         newCustomerNumber = response.Customer.CustomerNumber;
         assert.isObject(response.Customer);
     }),
+    it('should return active customers', async () => {
+        const response = await fn.customers.get({ filter: 'active' });
+        assert.isArray(response.Customers);
+    }),
     it('should return a customer', async () => {
-        const response = await fn.customers.get(newCustomerNumber);
+        const response = await fn.customers.get({ customerNumber: newCustomerNumber });
         assert.equal(response.Customer.Name, aCustomer.Name);
     }),
     it('should return all customers', async () => {
