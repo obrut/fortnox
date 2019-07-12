@@ -1,13 +1,13 @@
-import { Fortnox } from '.';
 import { Dispatch } from './dispatch';
+import { Util } from './utils';
 
 export class Invoices {
-    private api: Fortnox;
     private dispatch: Dispatch;
+    private util: Util;
 
-    constructor(api: Fortnox){
-        this.api = api;
-        this.dispatch = new Dispatch(api);
+    constructor(dispatch: Dispatch){
+        this.dispatch = dispatch;
+        this.util = new Util();
     }
 
     async get(documentNumber?: string) {
@@ -15,13 +15,14 @@ export class Invoices {
         return result.Invoice;
     }
 
-    async create(invoice: any) {
-        const result = await this.dispatch.post('invoices', { Invoice: invoice })
-        return result.Invoice;
+    async getByCustomer(customerNumber: string) {
+        const allInvoices: any[] = await this.util.getAllPages('invoices/', 'Invoices', this.dispatch);
+        
+        return allInvoices.filter(invoice => invoice.CustomerNumber.toLowerCase() == customerNumber.toLowerCase());
     }
 
-    async send(documentNumber: string) {
-        const result = await this.dispatch.put(`invoices/${documentNumber}/email`, null);
+    async create(invoice: any) {
+        const result = await this.dispatch.post('invoices', { Invoice: invoice })
         return result.Invoice;
     }
 
@@ -30,7 +31,12 @@ export class Invoices {
         return result.Invoice;
     }
 
+    async send(documentNumber: string) {
+        const result = await this.dispatch.put(`invoices/${documentNumber}/email`, null);
+        return result.Invoice;
+    }
+
     async remove(documentNumber: string) {
-        return await this.dispatch.get(`invoices/${documentNumber}/cancel`);
+        return await this.dispatch.put(`invoices/${documentNumber}/cancel`, null);
     }
 }

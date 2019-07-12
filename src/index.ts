@@ -1,14 +1,11 @@
 import { Articles } from './articles';
 import { Customers } from './customers';
 import { Invoices } from './invoices';
+import { Dispatch } from './dispatch';
 
 export class Fortnox {
-    defaults: any;
-    host: string;
-
     constructor(config: { host: string, clientSecret: string, accessToken: string }){
-        this.host = config.host;
-        this.defaults = {
+        const defaults = {
             json: true,
             headers: {
                 'client-secret': config.clientSecret,
@@ -17,9 +14,13 @@ export class Fortnox {
                 'Accept': 'application/json'
             }
         }
+        const dispatch = new Dispatch( {Host: config.host, Defaults: defaults } );
+        this.articles = new Articles(dispatch);
+        this.customers = new Customers(dispatch);
+        this.invoices = new Invoices(dispatch);
     }
 
-    public articles: Articles = new Articles(this);
-    public customers: Customers = new Customers(this);
-    public invoices: Invoices = new Invoices(this);
+    public articles: Articles;
+    public customers: Customers;
+    public invoices: Invoices;
 }

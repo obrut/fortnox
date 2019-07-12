@@ -1,13 +1,13 @@
-import { Fortnox } from '.';
 import { Dispatch } from './dispatch';
+import { Util } from './utils';
 
 export class Articles {
-    private api: Fortnox;
     private dispatch: Dispatch;
+    private util: Util;
     
-    constructor(api: Fortnox){
-        this.api = api;
-        this.dispatch = new Dispatch(api);
+    constructor(dispatch: Dispatch){
+        this.dispatch = dispatch;
+        this.util = new Util();
     }
     
     async get(articleNumber: string) {
@@ -19,8 +19,8 @@ export class Articles {
         let path = 'articles/';
         if (filter)
             path += '?filter=' + filter;
-        const result = await this.dispatch.get(path);
-        return result.Articles;
+        const result: any = await this.util.getAllPages(path, 'Articles', this.dispatch);
+        return result;
     }
 
     async create(article: any) {
