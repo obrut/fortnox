@@ -32,11 +32,11 @@ export class Invoices {
     }
 
     async send(documentNumber: string) {
-        const result = await this.dispatch.put(`invoices/${documentNumber}/email`, null);
+        const result = await this.dispatch.get(`invoices/${documentNumber}/email`);
         return result.Invoice;
     }
 
     async remove(documentNumber: string) {
-        return await this.dispatch.put(`invoices/${documentNumber}/cancel`, null);
+        return await this.dispatch.get(`invoices/${documentNumber}/cancel`);
     }
 }
