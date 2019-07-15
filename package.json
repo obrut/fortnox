@@ -1,6 +1,6 @@
 {
   "name": "fortnox-wrapper",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Unofficial Fortnox api-wrapper for customers, articles and invoices.",
   "main": "./dist/index.js",
   "typings": "./dist/index",
@@ -12,6 +12,12 @@
     "test": "./node_modules/.bin/nyc ./node_modules/.bin/mocha -r ts-node/register test/*.ts"
   },
   "author": "Gustaf Ridderstolpe, Enfo Sweden AB",
+  "repository": "github:obrut/fortnox",
+  "keywords": [
+    "fortnox",
+    "api"
+  ],
+  "bugs": "https://github.com/obrut/fortnox/issues",
   "license": "Apache",
   "devDependencies": {
     "@types/chai": "^4.1.7",
