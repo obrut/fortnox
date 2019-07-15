@@ -20,7 +20,7 @@ const aNewCustomer = await fn.customers.create({Name: 'John McClane'});
 ## Implemented (so far):
 
 * Customer (create, get, update, remove)
-* Article (create, get, remove)
+* Article (create, get, update, remove)
 * Invoice (create, get, update, send (email), cancel)
 
 Fork and add stuff!

@@ -37,6 +37,7 @@ export class Invoices {
     }
 
     async remove(documentNumber: string) {
-        return await this.dispatch.get(`invoices/${documentNumber}/cancel`);
+        const result = await this.dispatch.put(`invoices/${documentNumber}/cancel`);
+        return result.Invoice;
     }
 }

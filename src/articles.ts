@@ -28,7 +28,19 @@ export class Articles {
         return result.Article;
     }
 
+    async update(article: any) {
+        const result = await this.dispatch.put(`articles/${article.ArticleNumber}`, { Article: article });
+        return result.Article;
+    }
+
     async remove(articleNumber: string) {
-        return await this.dispatch.delete(`articles/${articleNumber}`);
+        //Remove or make inactive
+        try {
+            const result = await this.dispatch.delete(`articles/${articleNumber}`);
+            return result;
+        } catch (error) {
+            const result = await this.update( { ArticleNumber: articleNumber, Active: false } );
+            return result.Active == false;
+        }
     }
 }

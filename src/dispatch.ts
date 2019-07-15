@@ -26,8 +26,8 @@ export class Dispatch {
         return result;
     }
 
-    async put(path: string, body: any) {
-        const response = await fetch(`${this.host}${path}`, { method: 'PUT', headers: this.defaults.headers, body: JSON.stringify(body, null, 4) });
+    async put(path: string, body?: any) {
+        const response = await fetch(`${this.host}${path}`, { method: 'PUT', headers: this.defaults.headers, body: body && JSON.stringify(body, null, 4) });
         const result = await response.json();
         if(result.ErrorInformation)
             throw result.ErrorInformation.message;
