@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-import { Fortnox } from '.';
 
 export class Dispatch {
     private host: string;

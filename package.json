@@ -20,15 +20,15 @@
   "bugs": "https://github.com/obrut/fortnox/issues",
   "license": "Apache",
   "devDependencies": {
-    "@types/chai": "^4.1.7",
+    "@types/chai": "^4.2.4",
     "@types/mocha": "^5.2.7",
-    "@types/node-fetch": "^2.3.7",
+    "@types/node-fetch": "^2.5.3",
     "chai": "^4.2.0",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "register": "0.0.0",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.3"
+    "ts-node": "^8.5.0",
+    "typescript": "^3.7.2"
   },
   "dependencies": {
     "node-fetch": "^2.6.0"
