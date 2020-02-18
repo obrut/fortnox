@@ -54,3 +54,6 @@ testem.log
 .DS_Store
 Thumbs.db
 .vscode/settings.json
+
+# Custom
+fnConfig.json

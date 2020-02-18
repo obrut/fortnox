@@ -4,6 +4,7 @@ import { Util } from './utils';
 export class Articles {
     private dispatch: Dispatch;
     private util: Util;
+    private path = 'articles';
     
     constructor(dispatch: Dispatch){
         this.dispatch = dispatch;
@@ -11,12 +12,12 @@ export class Articles {
     }
     
     async get(articleNumber: string) {
-        const result = await this.dispatch.get(`articles/${articleNumber}`);
+        const result = await this.dispatch.get(`${this.path}/${articleNumber}`);
         return result.Article;
     }
 
     async getAll(filter?: string) {
-        let path = 'articles/';
+        let path = this.path;
         if (filter)
             path += '?filter=' + filter;
         const result: any = await this.util.getAllPages(path, 'Articles', this.dispatch);
@@ -24,23 +25,23 @@ export class Articles {
     }
 
     async create(article: any) {
-        const result = await this.dispatch.post('articles', { Article: article })
+        const result = await this.dispatch.post(this.path, { Article: article })
         return result.Article;
     }
 
     async update(article: any) {
-        const result = await this.dispatch.put(`articles/${article.ArticleNumber}`, { Article: article });
+        const result = await this.dispatch.put(`${this.path}/${article.ArticleNumber}`, { Article: article });
         return result.Article;
     }
 
     async remove(articleNumber: string) {
         //Remove or make inactive
         try {
-            const result = await this.dispatch.delete(`articles/${articleNumber}`);
+            const result = await this.dispatch.delete(`${this.path}/${articleNumber}`);
             return result;
         } catch (error) {
             const result = await this.update( { ArticleNumber: articleNumber, Active: false } );
-            return result.Active == false;
+            return result.Active === false;
         }
     }
 }

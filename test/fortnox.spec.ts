@@ -2,8 +2,9 @@ import { assert, expect } from 'chai';
 import { Fortnox } from './../src/index';
 
 describe('fortnox', () => {
-    //Add your own secret and token.
-    const fn = new Fortnox({ host: 'https://api.fortnox.se/3/', clientSecret: 'xyz', accessToken: 'zyx' });
+    //Add your own secret and token in ./fnconfig.json (ignored in .gitignore) sample-file included
+    const config = require('./fnConfig.json');
+    const fn = new Fortnox({ host: 'https://api.fortnox.se/3/', clientSecret: config.clientSecret, accessToken: config.accessToken });
     const time = new Date().valueOf();
     const aCustomer = {
         Address1: 'Nakatomi Plaza',
@@ -20,8 +21,51 @@ describe('fortnox', () => {
         Description: `Zippo Lighter ${time}`
     };
     let newArticleNumber: string;
-
     let newInvoiceNumber: string;
+    const supplier = {
+        Name: `Argyle Limo Ltd ${time}`,
+        SupplierNumber: null
+    };
+    let newSupplierNumber: string = "0";
+    const supplierInvoice = {
+        Currency: "SEK",
+        CurrencyRate: "1",
+        CurrencyUnit: 1,
+        DueDate: "2030-01-01",
+        InvoiceDate: "2020-02-19",
+        SupplierInvoiceRows: [
+        {
+            Account: 2440,
+            Code: "TOT",
+            AccountDescription: "Leverantörsskulder",
+            Debit: 0,
+            Credit: 10000,
+            Total: -10000
+        },
+        {
+            Account: 2641,
+            Code: "VAT",
+            AccountDescription: "Debiterad ingående moms",
+            Debit: 2000,
+            Credit: 0,
+            Total: 2000
+        },
+        {
+            Account: 1240,
+            Code: "PRE",
+            AccountDescription: "Bilar och andra transportmedel",
+            Debit: 8000,
+            Credit: 0,
+            Total: 8000
+        }
+        ],
+        SupplierNumber: newSupplierNumber,
+        Total: "10000",
+        VAT: "2000",
+        VATType: "NORMAL",
+        SalesType: "STOCK"
+      };
+    let newGivenNumber: string = "0";
 
     it('should create an article', async () => {
         const response = await fn.articles.create(anArticle);
@@ -96,6 +140,43 @@ describe('fortnox', () => {
     }),
     it('should remove or make article inactive', async () => {
         const result = await fn.articles.remove(newArticleNumber);
+        assert.isTrue(result);
+    }),
+    it('should create a supplier and return a SupplierNumber', async () => {
+        const result = await fn.suppliers.create(supplier);
+        assert.isObject(result);
+        newSupplierNumber = result.SupplierNumber;
+    }),
+    it ('should create a supplierinvoice', async () => {
+        supplierInvoice.SupplierNumber = newSupplierNumber;
+        const result = await fn.supplierInvoices.create(supplierInvoice);
+        assert.isObject(result);
+        newGivenNumber = result.GivenNumber;
+    }),
+    it('should return an array of supplierinvoices', async () => {
+        const result = await fn.supplierInvoices.get();
+        assert.isArray(result);
+    }),
+    it('should return a supplierinvoice', async () => {
+        const result = await fn.supplierInvoices.get(newGivenNumber);
+        assert.isObject(result);
+        assert.equal(result.GivenNumber, newGivenNumber);
+        assert.isString(result.Total);
+        assert.equal(Number.parseInt(result.Total), 10000);
+    }),
+    it('should return an array of one supplierinvoices', async () => {
+        const result = await fn.supplierInvoices.getSpecified([newGivenNumber]);
+        assert.isArray(result);
+        assert.lengthOf(result, 1);
+    })
+    it('should cancel a supplierinvoice', async () => {
+        const result = await fn.supplierInvoices.remove(newGivenNumber);
+        assert.isBoolean(result);
+        assert.isTrue(result);
+    }),
+    it('should inactivate a supplier', async () => {
+        const result = await fn.suppliers.remove(newSupplierNumber);
+        assert.isBoolean(result);
         assert.isTrue(result);
     })
 })
