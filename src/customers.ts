@@ -24,9 +24,10 @@ export class Customers {
         return result;
     }
 
+    // Will return first hit, email is not unique, only CustomerNumber is, this is best effort
     async getByEmail(email: string) {
         const allCustomers = await this.getAll('active');
-        return allCustomers.filter((customer: any) => customer.Email.toLowerCase().indexOf(email.toLowerCase()) > -1);
+        return allCustomers.find((customer: any) => customer.Email.toLowerCase().includes(email.toLowerCase()));
     }
 
     async create(customer: any) {

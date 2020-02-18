@@ -23,7 +23,6 @@ export class Invoices {
 
     async getByCustomer(customerNumber: string) {
         const allInvoices: any[] = await this.util.getAllPages(`${this.path}/`, 'Invoices', this.dispatch);
-        
         return allInvoices.filter(invoice => invoice.CustomerNumber.toLowerCase() == customerNumber.toLowerCase());
     }
 

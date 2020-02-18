@@ -94,9 +94,14 @@ describe('fortnox', () => {
         const response = await fn.customers.getAll('active');
         assert.isArray(response);
     }),
-    it('should return a customer', async () => {
+    it('should return a customer by number', async () => {
         const response = await fn.customers.get(newCustomerNumber);
         assert.equal(response.Name, aCustomer.Name);
+    }),
+    it('should return a customer by email', async () => {
+        const response = await fn.customers.getByEmail(aCustomer.Email);
+        assert.isObject(response);
+        assert.equal(response.Email, aCustomer.Email);
     }),
     it('should return all customers', async () => {
         const response = await fn.customers.getAll();
@@ -126,6 +131,15 @@ describe('fortnox', () => {
         const response = await fn.invoices.get(newInvoiceNumber);
         assert.equal(response.CustomerNumber, newCustomerNumber);
     }),
+    it('should return all unpaid invoices', async () => {
+        const response = await fn.invoices.getAll('unpaid');
+        assert.isArray(response);
+    }),
+    it ('should update an invoice', async () => {
+        const result = await fn.invoices.update({ DocumentNumber: newInvoiceNumber, Freight: 100 });
+        assert.isObject(result);
+        assert.equal(result.Freight, 100);
+    }),
     it('should send an invoice', async () => {
         const result = await fn.invoices.send(newInvoiceNumber);
         assert.isTrue(result.Sent);
@@ -146,6 +160,11 @@ describe('fortnox', () => {
         const result = await fn.suppliers.create(supplier);
         assert.isObject(result);
         newSupplierNumber = result.SupplierNumber;
+    }),
+    it('should update a supplier', async () => {
+        const result = await fn.suppliers.update({SupplierNumber: newSupplierNumber, City: 'Los Angeles'});
+        assert.isObject(result);
+        assert.equal(result.City, 'Los Angeles');
     }),
     it ('should create a supplierinvoice', async () => {
         supplierInvoice.SupplierNumber = newSupplierNumber;
