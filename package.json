@@ -1,6 +1,6 @@
 {
   "name": "fortnox-wrapper",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Unofficial Fortnox api-wrapper for customers, articles and invoices.",
   "main": "./dist/index.js",
   "typings": "./dist/index",
