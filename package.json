@@ -15,7 +15,8 @@
   "repository": "github:obrut/fortnox",
   "keywords": [
     "fortnox",
-    "api"
+    "api",
+    "node"
   ],
   "bugs": "https://github.com/obrut/fortnox/issues",
   "license": "Apache",
