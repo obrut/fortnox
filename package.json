@@ -1,6 +1,6 @@
 {
   "name": "fortnox-wrapper",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "Unofficial Fortnox api-wrapper for customers, articles and invoices.",
   "main": "./dist/index.js",
   "typings": "./dist/index",
@@ -21,15 +21,15 @@
   "bugs": "https://github.com/obrut/fortnox/issues",
   "license": "Apache",
   "devDependencies": {
-    "@types/chai": "^4.2.4",
+    "@types/chai": "^4.2.12",
     "@types/mocha": "^5.2.7",
-    "@types/node-fetch": "^2.5.3",
+    "@types/node-fetch": "^2.5.7",
     "chai": "^4.2.0",
-    "mocha": "^6.2.2",
+    "mocha": "^6.2.3",
     "nyc": "^14.1.1",
     "register": "0.0.0",
-    "ts-node": "^8.5.0",
-    "typescript": "^3.7.2"
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
   },
   "dependencies": {
     "node-fetch": "^2.6.0"
