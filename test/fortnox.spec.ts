@@ -1,4 +1,6 @@
 import { assert, expect } from 'chai';
+import { FNArticle } from '../src/types/FNArticle';
+import { FNCustomer } from '../src/types/FNCustomer';
 import { Fortnox } from './../src/index';
 
 describe('fortnox', () => {
@@ -6,7 +8,7 @@ describe('fortnox', () => {
     const config = require('./fnConfig.json');
     const fn = new Fortnox({ host: 'https://api.fortnox.se/3/', clientSecret: config.clientSecret, accessToken: config.accessToken });
     const time = new Date().valueOf();
-    const aCustomer = {
+    const aCustomer: FNCustomer = {
         Address1: 'Nakatomi Plaza',
         City: 'Los Angeles',
         Email: `test+${time}@myfortnox.com`,
@@ -17,7 +19,7 @@ describe('fortnox', () => {
     };
     let newCustomerNumber: string;
 
-    const anArticle = {
+    const anArticle: FNArticle = {
         Description: `Zippo Lighter ${time}`
     };
     let newArticleNumber: string;
