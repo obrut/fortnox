@@ -115,7 +115,7 @@ describe('fortnox', () => {
             CustomerNumber: newCustomerNumber,
             InvoiceRows: [{
                 ArticleNumber: newArticleNumber,
-                DeliveredQuantity: articles,
+                DeliveredQuantity: articles.toString(),
                 Description: `Test ${time}`
             }],
             EmailInformation: {

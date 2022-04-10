@@ -1,4 +1,5 @@
 import { Dispatch } from './dispatch';
+import { FNInvoice } from './types/FNInvoice';
 import { Util } from './utils';
 
 export class Invoices {
@@ -12,12 +13,12 @@ export class Invoices {
     }
 
     async get(documentNumber?: string) {
-        const result = await this.dispatch.get(`${this.path}/${documentNumber || ''}`);
+        const result = await this.dispatch.get(`${this.path}/${documentNumber || ''}`) as FNInvoice;
         return result.Invoice;
     }
 
     async getAll(filter: string) {
-        const result: any = await this.util.getAllPages(this.path + '?filter=' + filter, 'Invoices', this.dispatch);
+        const result = await this.util.getAllPages(this.path + '?filter=' + filter, 'Invoices', this.dispatch) as FNInvoice[];
         return result;
     }
 
@@ -26,23 +27,26 @@ export class Invoices {
         return allInvoices.filter(invoice => invoice.CustomerNumber.toLowerCase() == customerNumber.toLowerCase());
     }
 
-    async create(invoice: any) {
-        const result = await this.dispatch.post(this.path, { Invoice: invoice })
-        return result.Invoice;
+    async create(data: FNInvoice) {
+        const result = await this.dispatch.post(this.path, { Invoice: data });
+        return result as FNInvoice;
     }
 
-    async update(invoice: any) {
-        const result = await this.dispatch.put(`${this.path}/${invoice.DocumentNumber}`, { Invoice: invoice });
+    async update(invoice: FNInvoice) {
+        if (!invoice.Invoice) {
+            throw new Error('Invoice is missing');
+        }
+        const result = await this.dispatch.put(`${this.path}/${invoice.Invoice.DocumentNumber}`, { Invoice: invoice }) as FNInvoice;
         return result.Invoice;
     }
 
     async send(documentNumber: string) {
-        const result = await this.dispatch.get(`${this.path}/${documentNumber}/email`);
+        const result = await this.dispatch.get(`${this.path}/${documentNumber}/email`) as FNInvoice;
         return result.Invoice;
     }
 
     async remove(documentNumber: string) {
-        const result = await this.dispatch.put(`${this.path}/${documentNumber}/cancel`);
+        const result = await this.dispatch.put(`${this.path}/${documentNumber}/cancel`) as FNInvoice;
         return result.Invoice;
     }
 }
