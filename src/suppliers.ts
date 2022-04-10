@@ -1,5 +1,11 @@
 import { Dispatch } from './dispatch';
+import { FNSupplier } from './types/FNSupplier';
 import { Util } from './utils';
+
+type SupplierResult = {
+    Supplier: FNSupplier,
+    Suppliers: FNSupplier[]
+}
 
 export class Suppliers {
     private dispatch: Dispatch;
@@ -12,7 +18,7 @@ export class Suppliers {
     }
 
     async get(supplierNumber?: string) {
-        const result = await this.dispatch.get(this.path);
+        const result = await this.dispatch.get(this.path) as unknown as SupplierResult;
         return supplierNumber ? result.Supplier : result.Suppliers;
     }
 
@@ -20,22 +26,22 @@ export class Suppliers {
         let path = this.path;
         if (filter)
             path += '?filter=' + filter;
-        const result: any = await this.util.getAllPages(path, 'Suppliers', this.dispatch);
+        const result = await this.util.getAllPages(path, 'Suppliers', this.dispatch) as unknown as [FNSupplier];
         return result;
     }
 
     async create(supplier: any) {
-        const result = await this.dispatch.post(this.path, { Supplier: supplier });
+        const result = await this.dispatch.post(this.path, { Supplier: supplier }) as unknown as SupplierResult;
         return result.Supplier;
     }
 
     async remove(supplierNumber: string) {
-        const result = await this.update( { SupplierNumber: supplierNumber, Active: false } );
+        const result = await this.update( { SupplierNumber: supplierNumber, Active: false } ) as unknown as FNSupplier;
         return result.Active === false;
     }
 
     async update(supplier: any) {
-        const result = await this.dispatch.put(`${this.path}/${supplier.SupplierNumber}`, { Supplier: supplier });
+        const result = await this.dispatch.put(`${this.path}/${supplier.SupplierNumber}`, { Supplier: supplier }) as unknown as SupplierResult;
         return result.Supplier;
     }
 }

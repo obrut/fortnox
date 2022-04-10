@@ -10,7 +10,7 @@
     "experimentalDecorators": true,
     "suppressImplicitAnyIndexErrors": true,
     "strict": true,
-    "target": "es6",
+    "target": "esnext",
     "resolveJsonModule": true,
     "esModuleInterop": true,  
     "allowJs": false,

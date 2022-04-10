@@ -17,7 +17,7 @@ export class Articles {
     }
     
     async get(articleNumber: string) {
-        const result: any = await this.dispatch.get(`${this.path}/${articleNumber}`) as unknown as ArticleResult;
+        const result = await this.dispatch.get(`${this.path}/${articleNumber}`) as unknown as ArticleResult;
         return result.Article;
     }
 
@@ -25,7 +25,7 @@ export class Articles {
         let path = this.path;
         if (filter)
             path += '?filter=' + filter;
-        const result: any = await this.util.getAllPages(path, 'Articles', this.dispatch) as unknown as [FNArticle];
+        const result = await this.util.getAllPages(path, 'Articles', this.dispatch) as unknown as [FNArticle];
         return result;
     }
 
