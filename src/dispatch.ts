@@ -11,7 +11,7 @@ export class Dispatch {
     
     async get(path?: string) {
         const response = await fetch(`${this.host}${path}`, { method: 'GET', headers: this.defaults.headers });
-        const result = await response.json();
+        const result: any = await response.json();
         if(result.ErrorInformation)
             throw result.ErrorInformation.message;
         return result;
@@ -19,7 +19,7 @@ export class Dispatch {
 
     async post(path: string, body: any) {
         const response = await fetch(`${this.host}${path}`, { method: 'POST', headers: this.defaults.headers, body: JSON.stringify(body, null, 4) });
-        const result = await response.json();
+        const result: any = await response.json();
         if(result.ErrorInformation)
             throw result.ErrorInformation.message;
         return result;
@@ -27,7 +27,7 @@ export class Dispatch {
 
     async put(path: string, body?: any) {
         const response = await fetch(`${this.host}${path}`, { method: 'PUT', headers: this.defaults.headers, body: body && JSON.stringify(body, null, 4) });
-        const result = await response.json();
+        const result: any = await response.json();
         if(result.ErrorInformation)
             throw result.ErrorInformation.message;
         return result;
@@ -37,7 +37,7 @@ export class Dispatch {
         const response = await fetch(`${this.host}${path}`, { method: 'DELETE', headers: this.defaults.headers });
         if (response && response.status === 204)
             return response.ok;
-        const result = await response.json();
+        const result: any = await response.json();
         if(result.ErrorInformation)
             throw result.ErrorInformation.message;
         return;
