@@ -19,7 +19,7 @@ export class Dispatch {
 
     async post(path: string, body: any) {
         const response = await fetch(`${this.host}${path}`, { method: 'POST', headers: this.defaults.headers, body: JSON.stringify(body, null, 4) });
-        if (response.status === 200)
+        if (response.status === 201)
             return await response.json() as object;
         throw new Error(response.statusText);
     }

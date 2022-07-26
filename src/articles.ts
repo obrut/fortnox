@@ -25,17 +25,17 @@ export class Articles {
         let path = this.path;
         if (filter)
             path += '?filter=' + filter;
-        const result = await this.util.getAllPages(path, 'Articles', this.dispatch) as unknown as [FNArticle];
+        const result = await this.util.getAllPages(path, 'Articles', this.dispatch) as FNArticle[];
         return result;
     }
 
     async create(article: any) {
-        const result = await this.dispatch.post(this.path, { Article: article }) as unknown as ArticleResult;
+        const result = await this.dispatch.post(this.path, { Article: article }) as ArticleResult;
         return result.Article;
     }
 
     async update(article: any) {
-        const result = await this.dispatch.put(`${this.path}/${article.ArticleNumber}`, { Article: article }) as unknown as ArticleResult;
+        const result = await this.dispatch.put(`${this.path}/${article.ArticleNumber}`, { Article: article }) as ArticleResult;
         return result.Article;
     }
 

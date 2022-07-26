@@ -18,7 +18,7 @@ export class SupplierInvoices {
     }
 
     async get(givenNumber?: string) {
-        const result = await this.dispatch.get(`${this.path}/${givenNumber || ''}`) as unknown as SupplierInvoiceResult;
+        const result = await this.dispatch.get(`${this.path}/${givenNumber || ''}`) as SupplierInvoiceResult;
         return givenNumber ? result.SupplierInvoice : result.SupplierInvoices;
     }
 
@@ -26,7 +26,7 @@ export class SupplierInvoices {
         let path = this.path;
         if (filter)
             path += '?filter=' + filter;
-        const result = await this.util.getAllPages(path, 'SupplierInvoices', this.dispatch) as [FNSupplierInvoice];
+        const result = await this.util.getAllPages(path, 'SupplierInvoices', this.dispatch) as FNSupplierInvoice[];
         return result;
     }
 
@@ -37,12 +37,12 @@ export class SupplierInvoices {
     }
 
     async create(supplierInvoice: any) {
-        const result = await this.dispatch.post(this.path, { SupplierInvoice: supplierInvoice }) as unknown as SupplierInvoiceResult;
+        const result = await this.dispatch.post(this.path, { SupplierInvoice: supplierInvoice }) as SupplierInvoiceResult;
         return result.SupplierInvoice;
     }
 
     async update(supplierInvoice: any, action?: string) {
-        const result = await this.dispatch.put(`${this.path}/${supplierInvoice.GivenNumber}/${action && action || ''}`, {SupplierInvoice: supplierInvoice}) as unknown as SupplierInvoiceResult;
+        const result = await this.dispatch.put(`${this.path}/${supplierInvoice.GivenNumber}/${action && action || ''}`, {SupplierInvoice: supplierInvoice}) as SupplierInvoiceResult;
         return result.SupplierInvoice;
     }
 

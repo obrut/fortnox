@@ -17,12 +17,12 @@ export class Invoices {
     }
 
     async get(documentNumber?: string) {
-        const result = await this.dispatch.get(`${this.path}/${documentNumber || ''}`) as unknown as InvoiceResult;
+        const result = await this.dispatch.get(`${this.path}/${documentNumber || ''}`) as InvoiceResult;
         return result.Invoice;
     }
 
     async getAll(filter: string) {
-        const result = await this.util.getAllPages(this.path + '?filter=' + filter, 'Invoices', this.dispatch) as unknown as InvoiceResult[];
+        const result = await this.util.getAllPages(this.path + '?filter=' + filter, 'Invoices', this.dispatch) as InvoiceResult[];
         return result;
     }
 
@@ -32,8 +32,8 @@ export class Invoices {
     }
 
     async create(data: FNInvoice) {
-        const result = await this.dispatch.post(this.path, { Invoice: data });
-        return result as FNInvoice;
+        const result = await this.dispatch.post(this.path, { Invoice: data }) as InvoiceResult;
+        return result.Invoice as FNInvoice;
     }
 
     async update(invoice: FNInvoice) {
