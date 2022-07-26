@@ -1,4 +1,7 @@
-import { assert, expect } from 'chai';
+import { assert } from 'chai';
+import { FNArticle } from '../src/types/FNArticle';
+import { FNCustomer } from '../src/types/FNCustomer';
+import { FNSupplierInvoice } from '../src/types/FNSupplierInvoice';
 import { Fortnox } from './../src/index';
 
 describe('fortnox', () => {
@@ -6,7 +9,7 @@ describe('fortnox', () => {
     const config = require('./fnConfig.json');
     const fn = new Fortnox({ host: 'https://api.fortnox.se/3/', clientSecret: config.clientSecret, accessToken: config.accessToken });
     const time = new Date().valueOf();
-    const aCustomer = {
+    const aCustomer: FNCustomer = {
         Address1: 'Nakatomi Plaza',
         City: 'Los Angeles',
         Email: `test+${time}@myfortnox.com`,
@@ -17,7 +20,7 @@ describe('fortnox', () => {
     };
     let newCustomerNumber: string;
 
-    const anArticle = {
+    const anArticle: FNArticle = {
         Description: `Zippo Lighter ${time}`
     };
     let newArticleNumber: string;
@@ -27,7 +30,7 @@ describe('fortnox', () => {
         SupplierNumber: null
     };
     let newSupplierNumber: string = "0";
-    const supplierInvoice = {
+    const supplierInvoice: FNSupplierInvoice = {
         Currency: "SEK",
         CurrencyRate: "1",
         CurrencyUnit: 1,
@@ -69,7 +72,7 @@ describe('fortnox', () => {
 
     it('should create an article', async () => {
         const response = await fn.articles.create(anArticle);
-        newArticleNumber = response.ArticleNumber;
+        newArticleNumber = response.ArticleNumber!;
         assert.isObject(response);
         assert.equal(response.Description, anArticle.Description)
     }),
@@ -87,7 +90,7 @@ describe('fortnox', () => {
     }),
     it('should create a customer', async () => {
         const response = await fn.customers.create(aCustomer);
-        newCustomerNumber = response.CustomerNumber;
+        newCustomerNumber = response.CustomerNumber!;
         assert.isObject(response);
     }),
     it('should return active customers', async () => {
@@ -99,9 +102,9 @@ describe('fortnox', () => {
         assert.equal(response.Name, aCustomer.Name);
     }),
     it('should return a customer by email', async () => {
-        const response = await fn.customers.getByEmail(aCustomer.Email);
+        const response = await fn.customers.getByEmail(aCustomer.Email!);
         assert.isObject(response);
-        assert.equal(response.Email, aCustomer.Email);
+        assert.equal(response!.Email, aCustomer!.Email);
     }),
     it('should return all customers', async () => {
         const response = await fn.customers.getAll();
@@ -113,7 +116,7 @@ describe('fortnox', () => {
             CustomerNumber: newCustomerNumber,
             InvoiceRows: [{
                 ArticleNumber: newArticleNumber,
-                DeliveredQuantity: articles,
+                DeliveredQuantity: articles.toString(),
                 Description: `Test ${time}`
             }],
             EmailInformation: {
@@ -125,7 +128,7 @@ describe('fortnox', () => {
         });
         assert.equal(response.CustomerNumber, newCustomerNumber);
         assert.isObject(response);
-        newInvoiceNumber = response.DocumentNumber;
+        newInvoiceNumber = response.DocumentNumber!;
     }),
     it('should return an invoice', async () => {
         const response = await fn.invoices.get(newInvoiceNumber);
@@ -159,7 +162,7 @@ describe('fortnox', () => {
     it('should create a supplier and return a SupplierNumber', async () => {
         const result = await fn.suppliers.create(supplier);
         assert.isObject(result);
-        newSupplierNumber = result.SupplierNumber;
+        newSupplierNumber = result.SupplierNumber!;
     }),
     it('should update a supplier', async () => {
         const result = await fn.suppliers.update({SupplierNumber: newSupplierNumber, City: 'Los Angeles'});
@@ -170,18 +173,18 @@ describe('fortnox', () => {
         supplierInvoice.SupplierNumber = newSupplierNumber;
         const result = await fn.supplierInvoices.create(supplierInvoice);
         assert.isObject(result);
-        newGivenNumber = result.GivenNumber;
+        newGivenNumber = result.GivenNumber!;
     }),
     it('should return an array of supplierinvoices', async () => {
         const result = await fn.supplierInvoices.get();
         assert.isArray(result);
     }),
     it('should return a supplierinvoice', async () => {
-        const result = await fn.supplierInvoices.get(newGivenNumber);
+        const result = await fn.supplierInvoices.get(newGivenNumber) as FNSupplierInvoice;
         assert.isObject(result);
         assert.equal(result.GivenNumber, newGivenNumber);
         assert.isString(result.Total);
-        assert.equal(Number.parseInt(result.Total), 10000);
+        assert.equal(Number.parseInt(result!.Total!), 10000);
     }),
     it('should return an array of one supplierinvoices', async () => {
         const result = await fn.supplierInvoices.getSpecified([newGivenNumber]);

@@ -1,5 +1,10 @@
 import { Dispatch } from './dispatch';
+import { FNInvoice } from './types/FNInvoice';
 import { Util } from './utils';
+
+type InvoiceResult = {
+    Invoice: FNInvoice
+}
 
 export class Invoices {
     private dispatch: Dispatch;
@@ -12,37 +17,40 @@ export class Invoices {
     }
 
     async get(documentNumber?: string) {
-        const result = await this.dispatch.get(`${this.path}/${documentNumber || ''}`);
+        const result = await this.dispatch.get(`${this.path}/${documentNumber || ''}`) as InvoiceResult;
         return result.Invoice;
     }
 
     async getAll(filter: string) {
-        const result: any = await this.util.getAllPages(this.path + '?filter=' + filter, 'Invoices', this.dispatch);
+        const result = await this.util.getAllPages(this.path + '?filter=' + filter, 'Invoices', this.dispatch) as InvoiceResult[];
         return result;
     }
 
     async getByCustomer(customerNumber: string) {
-        const allInvoices: any[] = await this.util.getAllPages(`${this.path}/`, 'Invoices', this.dispatch);
+        const allInvoices = await this.util.getAllPages(`${this.path}/`, 'Invoices', this.dispatch);
         return allInvoices.filter(invoice => invoice.CustomerNumber.toLowerCase() == customerNumber.toLowerCase());
     }
 
-    async create(invoice: any) {
-        const result = await this.dispatch.post(this.path, { Invoice: invoice })
-        return result.Invoice;
+    async create(data: FNInvoice) {
+        const result = await this.dispatch.post(this.path, { Invoice: data }) as InvoiceResult;
+        return result.Invoice as FNInvoice;
     }
 
-    async update(invoice: any) {
-        const result = await this.dispatch.put(`${this.path}/${invoice.DocumentNumber}`, { Invoice: invoice });
+    async update(invoice: FNInvoice) {
+        if (!invoice) {
+            throw new Error('Invoice is missing');
+        }
+        const result = await this.dispatch.put(`${this.path}/${invoice.DocumentNumber}`, { Invoice: invoice }) as InvoiceResult;
         return result.Invoice;
     }
 
     async send(documentNumber: string) {
-        const result = await this.dispatch.get(`${this.path}/${documentNumber}/email`);
+        const result = await this.dispatch.get(`${this.path}/${documentNumber}/email`) as InvoiceResult;
         return result.Invoice;
     }
 
     async remove(documentNumber: string) {
-        const result = await this.dispatch.put(`${this.path}/${documentNumber}/cancel`);
+        const result = await this.dispatch.put(`${this.path}/${documentNumber}/cancel`) as InvoiceResult;
         return result.Invoice;
     }
 }

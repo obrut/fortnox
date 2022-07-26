@@ -4,10 +4,11 @@ import { Invoices } from './invoices';
 import { SupplierInvoices } from './supplierinvoices'
 import { Dispatch } from './dispatch';
 import { Suppliers } from './suppliers';
+import { Defaults } from './types/defaults';
 
 export class Fortnox {
     constructor(config: { host: string, clientSecret: string, accessToken: string }){
-        const defaults = {
+        const defaults: Defaults = {
             json: true,
             headers: {
                 'client-secret': config.clientSecret,

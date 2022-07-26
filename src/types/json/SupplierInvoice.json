@@ -1,0 +1,71 @@
+{
+    "SupplierInvoice": {
+      "@url": "string",
+      "AdministrationFee": "string",
+      "Balance": "string",
+      "Booked": true,
+      "Cancelled": true,
+      "Comments": "string",
+      "CostCenter": "string",
+      "Credit": true,
+      "CreditReference": 0,
+      "Currency": "string",
+      "CurrencyRate": "string",
+      "CurrencyUnit": 0,
+      "DisablePaymentFile": true,
+      "DueDate": "2019-08-24",
+      "ExternalInvoiceNumber": "string",
+      "ExternalInvoiceSeries": "string",
+      "Freight": "string",
+      "GivenNumber": "string",
+      "InvoiceDate": "2019-08-24",
+      "InvoiceNumber": "string",
+      "OCR": "string",
+      "OurReference": "string",
+      "PaymentPending": true,
+      "Project": "string",
+      "RoundOffValue": "string",
+      "SupplierInvoiceRows": [
+        {
+          "Account": 1000,
+          "ArticleNumber": "string",
+          "Code": "TOT",
+          "CostCenter": "string",
+          "AccountDescription": "string",
+          "ItemDescription": "string",
+          "Debit": 0,
+          "DebitCurrency": 0,
+          "Credit": 0,
+          "CreditCurrency": 0,
+          "Project": "string",
+          "TransactionInformation": "string",
+          "Price": 0,
+          "Quantity": 0,
+          "Total": 0,
+          "Unit": "string",
+          "StockPointCode": "string",
+          "StockLocationCode": "string"
+        }
+      ],
+      "SupplierNumber": "string",
+      "SupplierName": "string",
+      "Total": "string",
+      "VAT": "string",
+      "YourReference": "string",
+      "VoucherNumber": 0,
+      "VoucherSeries": "string",
+      "VoucherYear": 0,
+      "VATType": "NORMAL",
+      "SalesType": "STOCK",
+      "AccountingMethod": "ACCRUAL",
+      "Vouchers": [
+        {
+          "Number": 0,
+          "Year": 0,
+          "Series": "string",
+          "ReferenceType": "string"
+        }
+      ],
+      "FinalPayDate": "2019-08-24"
+    }
+  }
