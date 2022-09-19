@@ -8,12 +8,10 @@ type InvoiceResult = {
 
 export class Invoices {
     private dispatch: Dispatch;
-    private util: Util;
     private path = 'invoices';
 
     constructor(dispatch: Dispatch){
         this.dispatch = dispatch;
-        this.util = new Util();
     }
 
     async get(documentNumber?: string) {
@@ -21,13 +19,13 @@ export class Invoices {
         return result.Invoice;
     }
 
-    async getAll(filter: string) {
-        const result = await this.util.getAllPages(this.path + '?filter=' + filter, 'Invoices', this.dispatch) as InvoiceResult[];
+    async getAll(filter?: string) {
+        const result = await Util.getAllPages(this.path, 'Invoices', this.dispatch, filter) as FNInvoice[];
         return result;
     }
 
     async getByCustomer(customerNumber: string) {
-        const allInvoices = await this.util.getAllPages(`${this.path}/`, 'Invoices', this.dispatch);
+        const allInvoices = await Util.getAllPages(this.path, 'Invoices', this.dispatch);
         return allInvoices.filter(invoice => invoice.CustomerNumber.toLowerCase() == customerNumber.toLowerCase());
     }
 
