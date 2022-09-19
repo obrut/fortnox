@@ -118,7 +118,6 @@ describe('fortnox', () => {
     });
     it('should get all prices', async () => {
         const response = await fn.prices.getAll('A')
-        console.log(response);
         assert.isArray(response);
     });
     it('should update a volume price', async () => {
