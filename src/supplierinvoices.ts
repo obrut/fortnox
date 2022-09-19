@@ -9,12 +9,10 @@ type SupplierInvoiceResult = {
 
 export class SupplierInvoices {
     private dispatch: Dispatch;
-    private util: Util;
     private path = 'supplierinvoices';
 
     constructor(dispatch: Dispatch){
         this.dispatch = dispatch;
-        this.util = new Util();
     }
 
     async get(givenNumber?: string) {
@@ -23,10 +21,7 @@ export class SupplierInvoices {
     }
 
     async getAll(filter?: string) {
-        let path = this.path;
-        if (filter)
-            path += '?filter=' + filter;
-        const result = await this.util.getAllPages(path, 'SupplierInvoices', this.dispatch) as FNSupplierInvoice[];
+        const result = await Util.getAllPages(this.path, 'SupplierInvoices', this.dispatch, filter) as FNSupplierInvoice[];
         return result;
     }
 

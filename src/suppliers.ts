@@ -3,30 +3,24 @@ import { FNSupplier } from './types/FNSupplier';
 import { Util } from './utils';
 
 type SupplierResult = {
-    Supplier: FNSupplier,
-    Suppliers: FNSupplier[]
+    Supplier: FNSupplier
 }
 
 export class Suppliers {
     private dispatch: Dispatch;
-    private util: Util;
     private path = 'suppliers';
 
     constructor(dispatch: Dispatch){
         this.dispatch = dispatch;
-        this.util = new Util();
     }
 
-    async get(supplierNumber?: string) {
-        const result = await this.dispatch.get(this.path) as SupplierResult;
-        return supplierNumber ? result.Supplier : result.Suppliers;
+    async get(supplierNumber: string) {
+        const result = await this.dispatch.get(`${this.path}/${supplierNumber}`) as SupplierResult;
+        return result.Supplier;
     }
 
     async getAll(filter?: string) {
-        let path = this.path;
-        if (filter)
-            path += '?filter=' + filter;
-        const result = await this.util.getAllPages(path, 'Suppliers', this.dispatch) as FNSupplier[];
+        const result = await Util.getAllPages(this.path, 'Suppliers', this.dispatch, filter) as FNSupplier[];
         return result;
     }
 

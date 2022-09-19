@@ -8,12 +8,10 @@ type CustomerResult = {
 
 export class Customers {
     private dispatch: Dispatch;
-    private util: Util;
     private path = 'customers'
 
     constructor(dispatch: Dispatch){
         this.dispatch = dispatch;
-        this.util = new Util();
     }
 
     async get(customerNumber: string) {
@@ -22,10 +20,7 @@ export class Customers {
     }
 
     async getAll(filter?: string) {
-        let path = this.path;
-        if (filter)
-            path += '?filter=' + filter;
-        const result = await this.util.getAllPages(path, 'Customers', this.dispatch) as FNCustomer[];
+        const result = await Util.getAllPages(this.path, 'Customers', this.dispatch, filter) as FNCustomer[];
         return result;
     }
 

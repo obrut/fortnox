@@ -2,12 +2,18 @@ import { assert } from 'chai';
 import { FNArticle } from '../src/types/FNArticle';
 import { FNCustomer } from '../src/types/FNCustomer';
 import { FNSupplierInvoice } from '../src/types/FNSupplierInvoice';
+import { FNPrice } from '../src/types/FNPrice';
 import { Fortnox } from './../src/index';
 
 describe('fortnox', () => {
     //Add your own secret and token in ./fnconfig.json (ignored in .gitignore) sample-file included
     const config = require('./fnConfig.json');
-    const fn = new Fortnox({ host: 'https://api.fortnox.se/3/', clientSecret: config.clientSecret, accessToken: config.accessToken });
+    const fn = new Fortnox({ 
+        host: 'https://api.fortnox.se/3/', 
+        clientSecret: config.clientSecret, 
+        accessToken: config.accessToken,
+        bearerToken: config.bearerToken,
+    });
     const time = new Date().valueOf();
     const aCustomer: FNCustomer = {
         Address1: 'Nakatomi Plaza',
@@ -88,6 +94,48 @@ describe('fortnox', () => {
         const response = await fn.articles.get(newArticleNumber);
         assert.equal(response.Description, anArticle.Description);
     }),
+
+
+    it('should create a price', async () => {
+        const response = await fn.prices.create({
+            ArticleNumber: newArticleNumber,
+            FromQuantity: 0,
+            Price: 100,
+            PriceList: 'A'
+        });
+        assert.isObject(response);
+        assert.equal(response.Price, 100);
+    });
+    it('should create a volume price', async () => {
+        const response = await fn.prices.create({
+            ArticleNumber: newArticleNumber,
+            FromQuantity: 100,
+            Price: 90,
+            PriceList: 'A'
+        });
+        assert.isObject(response);
+        assert.equal(response.Price, 100);
+    });
+    it('should get all prices', async () => {
+        const response = await fn.prices.getAll('A')
+        assert.isArray(response);
+    });
+    it('should update a volume price', async () => {
+        const response = await fn.prices.update({
+            ArticleNumber: newArticleNumber,
+            FromQuantity: 100,
+            Price: 100500,
+            PriceList: 'A'
+        });
+        assert.isObject(response);
+        assert.equal(response.Price, 100500);
+    })
+    it('should remove a price', async () => {
+        const response = await fn.prices.remove('A', newArticleNumber, 100);
+        assert.isBoolean(response);
+        assert.isTrue(response);
+    })
+
     it('should create a customer', async () => {
         const response = await fn.customers.create(aCustomer);
         newCustomerNumber = response.CustomerNumber!;
@@ -100,6 +148,11 @@ describe('fortnox', () => {
     it('should return a customer by number', async () => {
         const response = await fn.customers.get(newCustomerNumber);
         assert.equal(response.Name, aCustomer.Name);
+    }),
+    it('should udpate a customer', async () => {
+        const response = await fn.customers.update({ CustomerNumber: newCustomerNumber, Address2: 'Building 5' });
+        assert.isObject(response);
+        assert.equal(response.Address2, 'Building 5');
     }),
     it('should return a customer by email', async () => {
         const response = await fn.customers.getByEmail(aCustomer.Email!);
@@ -134,6 +187,10 @@ describe('fortnox', () => {
         const response = await fn.invoices.get(newInvoiceNumber);
         assert.equal(response.CustomerNumber, newCustomerNumber);
     }),
+    it('should return an invoice by customer', async () => {
+        const response = await fn.invoices.getByCustomer(newCustomerNumber);
+        assert.isArray(response);
+    }),
     it('should return all unpaid invoices', async () => {
         const response = await fn.invoices.getAll('unpaid');
         assert.isArray(response);
@@ -163,6 +220,11 @@ describe('fortnox', () => {
         const result = await fn.suppliers.create(supplier);
         assert.isObject(result);
         newSupplierNumber = result.SupplierNumber!;
+    }),
+    it('should get a supplier', async () => {
+        const result = await fn.suppliers.get(newSupplierNumber);
+        assert.isObject(result);
+        assert.equal(result.Name, supplier.Name);
     }),
     it('should update a supplier', async () => {
         const result = await fn.suppliers.update({SupplierNumber: newSupplierNumber, City: 'Los Angeles'});
@@ -201,4 +263,5 @@ describe('fortnox', () => {
         assert.isBoolean(result);
         assert.isTrue(result);
     })
+
 })

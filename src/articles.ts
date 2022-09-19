@@ -8,12 +8,10 @@ type ArticleResult = {
 
 export class Articles {
     private dispatch: Dispatch;
-    private util: Util;
     private path = 'articles';
     
     constructor(dispatch: Dispatch){
         this.dispatch = dispatch;
-        this.util = new Util();
     }
     
     async get(articleNumber: string) {
@@ -22,10 +20,7 @@ export class Articles {
     }
 
     async getAll(filter?: string) {
-        let path = this.path;
-        if (filter)
-            path += '?filter=' + filter;
-        const result = await this.util.getAllPages(path, 'Articles', this.dispatch) as FNArticle[];
+        const result = await Util.getAllPages(this.path, 'Articles', this.dispatch, filter) as FNArticle[];
         return result;
     }
 

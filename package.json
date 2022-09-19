@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "./node_modules/.bin/nyc ./node_modules/.bin/mocha -r ts-node/register test/*.ts"
+    "auth": "./node_modules/.bin/ts-node ./test/http-server-oauth-authorize.ts",
+    "test": "./node_modules/.bin/nyc ./node_modules/.bin/mocha -r ts-node/register test/*.spec.ts"
   },
   "author": "Gustaf Ridderstolpe, Enfo Sweden AB",
   "repository": "github:obrut/fortnox",
@@ -45,7 +46,9 @@
       "src/**/*"
     ],
     "exclude": [
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "src/dispatch.ts",
+      "src/utils.ts"
     ],
     "reporter": [
       "text"
