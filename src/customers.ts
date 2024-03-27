@@ -17,7 +17,7 @@ export class Customers {
     }
 
     async get(customerNumber: string) {
-        const result = await this.dispatch.get(`${this.path}/${customerNumber}`) as CustomerResult;
+        const result = await this.dispatch.get<CustomerResult>(`${this.path}/${customerNumber}`);
         return result.Customer;
     }
 
@@ -25,23 +25,23 @@ export class Customers {
         let path = this.path;
         if (filter)
             path += '?filter=' + filter;
-        const result = await this.util.getAllPages(path, 'Customers', this.dispatch) as FNCustomer[];
+        const result = await this.util.getAllPages<FNCustomer>(path, 'Customers', this.dispatch);
         return result;
     }
 
     // Will return first hit, email is not unique, only CustomerNumber is, this is best effort
     async getByEmail(email: string) {
-        const allCustomers = await this.getAll('active') as FNCustomer[];
-        return allCustomers.find((customer: FNCustomer) => customer.Email?.toLowerCase().includes(email.toLowerCase()));
+        const allCustomers = await this.getAll('active');
+        return allCustomers.find((customer) => customer.Email?.toLowerCase().includes(email.toLowerCase()));
     }
 
     async create(customer: any) {
-        const result = await this.dispatch.post(this.path, { Customer: customer }) as CustomerResult;
+        const result = await this.dispatch.post<CustomerResult>(this.path, { Customer: customer });
         return result.Customer;
     }
 
     async update(customer: any) {
-        const result = await this.dispatch.put(`${this.path}/${customer.CustomerNumber}`, { Customer: customer }) as CustomerResult;
+        const result = await this.dispatch.put<CustomerResult>(`${this.path}/${customer.CustomerNumber}`, { Customer: customer });
         return result.Customer;
     }
 

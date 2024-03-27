@@ -10,24 +10,24 @@ export class Dispatch {
         this.defaults = config.Defaults
     }
     
-    async get(path?: string) {
+    async get<T>(path?: string) {
         const response = await fetch(`${this.host}${path}`, { method: 'GET', headers: this.defaults.headers });
         if (response.status === 200)
-            return await response.json() as object;
+            return await response.json() as T;
         throw new Error(response.statusText);
     }
 
-    async post(path: string, body: any) {
+    async post<T>(path: string, body: any) {
         const response = await fetch(`${this.host}${path}`, { method: 'POST', headers: this.defaults.headers, body: JSON.stringify(body, null, 4) });
         if (response.status === 201)
-            return await response.json() as object;
+            return await response.json() as T;
         throw new Error(response.statusText);
     }
 
-    async put(path: string, body?: any) {
+    async put<T>(path: string, body?: any) {
         const response = await fetch(`${this.host}${path}`, { method: 'PUT', headers: this.defaults.headers, body: body && JSON.stringify(body, null, 4) });
         if (response.status === 200)
-            return await response.json() as object;
+            return await response.json() as T;
         throw new Error(response.statusText);
     }
 

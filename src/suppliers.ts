@@ -18,7 +18,7 @@ export class Suppliers {
     }
 
     async get(supplierNumber?: string) {
-        const result = await this.dispatch.get(this.path) as SupplierResult;
+        const result = await this.dispatch.get<SupplierResult>(this.path);
         return supplierNumber ? result.Supplier : result.Suppliers;
     }
 
@@ -31,17 +31,17 @@ export class Suppliers {
     }
 
     async create(supplier: any) {
-        const result = await this.dispatch.post(this.path, { Supplier: supplier }) as SupplierResult;
+        const result = await this.dispatch.post<SupplierResult>(this.path, { Supplier: supplier });
         return result.Supplier;
     }
 
     async remove(supplierNumber: string) {
-        const result = await this.update( { SupplierNumber: supplierNumber, Active: false } ) as FNSupplier;
+        const result = await this.update( { SupplierNumber: supplierNumber, Active: false } );
         return result.Active === false;
     }
 
     async update(supplier: any) {
-        const result = await this.dispatch.put(`${this.path}/${supplier.SupplierNumber}`, { Supplier: supplier }) as SupplierResult;
+        const result = await this.dispatch.put<SupplierResult>(`${this.path}/${supplier.SupplierNumber}`, { Supplier: supplier });
         return result.Supplier;
     }
 }
