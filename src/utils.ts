@@ -1,17 +1,21 @@
 import { Dispatch } from "./dispatch";
+import { FNResponse } from "./types";
 
 export class Util {
-    async getAllPages(path: string, arrayName: string, dispatch: Dispatch) {
-        const items: any = await dispatch.get(path);
+    async getAllPages<T>(path: string, dispatch: Dispatch) {
+        const fnResp = await dispatch.get<FNResponse>(path);
         
-        let allItems: any[] = [];
-        const totalPages = Number.parseInt(items.MetaInformation['@TotalPages']);
-        allItems.push(...items[arrayName]);
-        
+        let allItems: T[] = [];
+        const totalPages = fnResp.MetaInformation["@TotalPages"];
+        // HAXX0R: The property that is not MetaInformation...
+        const collectionName = Object.getOwnPropertyNames(fnResp).find(n => n !== 'MetaInformation') || '';
+        allItems.push(...fnResp[collectionName]);
+                
         if (totalPages > 1){
-            let currentPage: number = 2;
+            let currentPage = 2;
             while(currentPage <= totalPages) {
-                allItems.push(...await dispatch.get(path + '&page=' + currentPage)[arrayName]);
+                const page =  await dispatch.get<FNResponse>(path + '&page=' + currentPage);
+                allItems.push(...page[collectionName]);
                 currentPage++;
             }
         }

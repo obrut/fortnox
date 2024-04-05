@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import axios from 'axios';
 import { Defaults } from './types/defaults';
 
 export class Dispatch {
@@ -10,31 +10,31 @@ export class Dispatch {
         this.defaults = config.Defaults
     }
     
-    async get(path?: string) {
-        const response = await fetch(`${this.host}${path}`, { method: 'GET', headers: this.defaults.headers });
+    async get<T>(path?: string) {
+        const response = await axios.get<T>(`${this.host}${path}`, { headers: this.defaults.headers });
         if (response.status === 200)
-            return await response.json() as object;
+            return response.data;
         throw new Error(response.statusText);
     }
 
-    async post(path: string, body: any) {
-        const response = await fetch(`${this.host}${path}`, { method: 'POST', headers: this.defaults.headers, body: JSON.stringify(body, null, 4) });
+    async post<T>(path: string, body: any) {
+        const response = await axios.post<T>(`${this.host}${path}`, body, { headers: this.defaults.headers });
         if (response.status === 201)
-            return await response.json() as object;
+            return response.data;
         throw new Error(response.statusText);
     }
 
-    async put(path: string, body?: any) {
-        const response = await fetch(`${this.host}${path}`, { method: 'PUT', headers: this.defaults.headers, body: body && JSON.stringify(body, null, 4) });
+    async put<T>(path: string, body?: any) {
+        const response = await axios.put<T>(`${this.host}${path}`, body, { headers: this.defaults.headers });
         if (response.status === 200)
-            return await response.json() as object;
+            return response.data;
         throw new Error(response.statusText);
     }
 
     async delete(path: string) {
-        const response = await fetch(`${this.host}${path}`, { method: 'DELETE', headers: this.defaults.headers });
+        const response = await axios.delete(`${this.host}${path}`, { headers: this.defaults.headers });
         if (response && response.status === 204)
-            return response.ok;
+            return true;
         throw new Error(response.statusText);
     }
 }

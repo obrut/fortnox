@@ -6,12 +6,21 @@ A Node.js module that implements, some, fortnox api functions.
 npm install fortnox --save
 ```
 ## Usage
+
+### Configuration
+Add to env:
+FN_CLIENT_SECRET
+FN_ACCESS_TOKEN
+FN_HOST
+
+Get these from Fortnox
+
 ### Javascript
 
 ```js
 import { Fortnox } from 'fortnox';
 
-const fn = new Fortnox({host: 'https://api.fortnox.se/3/', clientSecret: 'xyz', accessToken: 'zyx' })
+const fn = new Fortnox()
 const aCustomer = await fn.customers.get('1');
 const allActiveCustomers = await fn.customers.getAll('active'); 
 const aNewCustomer = await fn.customers.create({Name: 'John McClane'});
@@ -22,8 +31,8 @@ const aNewCustomer = await fn.customers.create({Name: 'John McClane'});
 * Customer (create, get, update, remove)
 * Article (create, get, update, remove)
 * Invoice (create, get, update, send (email), cancel)
-* Supplier (create, get, update, inactivate) (0.1.14)
-* SupplierInvoice (create, get, update, cancel) (0.1.14)
+* Supplier (create, get, update, inactivate)
+* SupplierInvoice (create, get, update, cancel)
 
 Fork and add stuff!
 

@@ -55,5 +55,4 @@ testem.log
 Thumbs.db
 .vscode/settings.json
 
-# Custom
-fnConfig.json
+.env

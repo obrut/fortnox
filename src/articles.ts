@@ -1,5 +1,5 @@
 import { Dispatch } from './dispatch';
-import { FNArticle } from './types/FNArticle';
+import { FNArticle } from './types/index';
 import { Util } from './utils';
 
 type ArticleResult = {
@@ -17,7 +17,7 @@ export class Articles {
     }
     
     async get(articleNumber: string) {
-        const result = await this.dispatch.get(`${this.path}/${articleNumber}`) as unknown as ArticleResult;
+        const result = await this.dispatch.get<ArticleResult>(`${this.path}/${articleNumber}`);
         return result.Article;
     }
 
@@ -25,17 +25,17 @@ export class Articles {
         let path = this.path;
         if (filter)
             path += '?filter=' + filter;
-        const result = await this.util.getAllPages(path, 'Articles', this.dispatch) as FNArticle[];
+        const result = await this.util.getAllPages<FNArticle>(path, this.dispatch);
         return result;
     }
 
     async create(article: any) {
-        const result = await this.dispatch.post(this.path, { Article: article }) as ArticleResult;
+        const result = await this.dispatch.post<ArticleResult>(this.path, { Article: article });
         return result.Article;
     }
 
     async update(article: any) {
-        const result = await this.dispatch.put(`${this.path}/${article.ArticleNumber}`, { Article: article }) as ArticleResult;
+        const result = await this.dispatch.put<ArticleResult>(`${this.path}/${article.ArticleNumber}`, { Article: article });
         return result.Article;
     }
 

@@ -1,13 +1,10 @@
 import { assert } from 'chai';
-import { FNArticle } from '../src/types/FNArticle';
-import { FNCustomer } from '../src/types/FNCustomer';
-import { FNSupplierInvoice } from '../src/types/FNSupplierInvoice';
+import { FNArticle, FNCustomer, FNSupplierInvoice } from '../src/types/index';
 import { Fortnox } from './../src/index';
 
 describe('fortnox', () => {
-    //Add your own secret and token in ./fnconfig.json (ignored in .gitignore) sample-file included
-    const config = require('./fnConfig.json');
-    const fn = new Fortnox({ host: 'https://api.fortnox.se/3/', clientSecret: config.clientSecret, accessToken: config.accessToken });
+    //Add your own secret and token in .env, sample-file included
+    const fn = new Fortnox();
     const time = new Date().valueOf();
     const aCustomer: FNCustomer = {
         Address1: 'Nakatomi Plaza',
