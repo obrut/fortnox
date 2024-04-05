@@ -1,5 +1,5 @@
 import { Dispatch } from './dispatch';
-import { FNArticle } from './types/FNArticle';
+import { FNArticle } from './types/index';
 import { Util } from './utils';
 
 type ArticleResult = {
@@ -25,7 +25,7 @@ export class Articles {
         let path = this.path;
         if (filter)
             path += '?filter=' + filter;
-        const result = await this.util.getAllPages<FNArticle>(path, 'Articles', this.dispatch);
+        const result = await this.util.getAllPages<FNArticle>(path, this.dispatch);
         return result;
     }
 

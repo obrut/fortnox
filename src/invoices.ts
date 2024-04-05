@@ -1,5 +1,5 @@
 import { Dispatch } from './dispatch';
-import { FNInvoice } from './types/FNInvoice';
+import { FNInvoice } from './types/index';
 import { Util } from './utils';
 
 type InvoiceResult = {
@@ -22,7 +22,7 @@ export class Invoices {
     }
 
     async getAll(filter: string) {
-        const result = await this.util.getAllPages<InvoiceResult>(this.path + '?filter=' + filter, 'Invoices', this.dispatch);
+        const result = await this.util.getAllPages<InvoiceResult>(this.path + '?filter=' + filter, this.dispatch);
         return result;
     }
 

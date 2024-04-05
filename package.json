@@ -1,6 +1,6 @@
 {
   "name": "fortnox-wrapper",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "Unofficial Fortnox api-wrapper for customers, articles and invoices.",
   "main": "./dist/index.js",
   "typings": "./dist/index",
@@ -9,9 +9,9 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "./node_modules/.bin/nyc ./node_modules/.bin/mocha -r ts-node/register test/*.ts"
+    "test": "cross-env TS_NODE_PROJECT='./tsconfig.test.json' nyc mocha --require ts-node/register --recursive 'test/**/*.spec.ts' --loader=ts-node/esm"
   },
-  "author": "Gustaf Ridderstolpe, Enfo Sweden AB",
+  "author": "Gustaf Ridderstolpe, Fiholm",
   "repository": "github:obrut/fortnox",
   "keywords": [
     "fortnox",
@@ -24,33 +24,29 @@
     "@types/chai": "^4.3.14",
     "@types/mocha": "^10.0.6",
     "@types/node-fetch": "^2.6.11",
-    "chai": "^5.1.0",
+    "@types/sinon": "^17.0.3",
+    "chai": "^4",
+    "cross-env": "^7.0.3",
     "mocha": "^10.4.0",
     "nyc": "^15.1.0",
     "register": "0.0.0",
+    "sinon": "^17.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5"
   },
   "nyc": {
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "include": [
-      "src/**/*"
-    ],
-    "exclude": [
-      "**/*.d.ts"
-    ],
     "reporter": [
       "text"
     ],
     "all": true,
-    "check-coverage": true
+    "check-coverage": true,
+    "lines": 50,
+    "statements": 50,
+    "functions": 50,
+    "branches": 47
   }
 }

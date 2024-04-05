@@ -1,5 +1,5 @@
 import { Dispatch } from './dispatch';
-import { FNSupplier } from './types/FNSupplier';
+import { FNSupplier } from './types/index';
 import { Util } from './utils';
 
 type SupplierResult = {
@@ -26,7 +26,7 @@ export class Suppliers {
         let path = this.path;
         if (filter)
             path += '?filter=' + filter;
-        const result = await this.util.getAllPages(path, 'Suppliers', this.dispatch) as FNSupplier[];
+        const result = await this.util.getAllPages(path, this.dispatch) as FNSupplier[];
         return result;
     }
 

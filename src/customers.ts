@@ -1,5 +1,5 @@
 import { Dispatch } from "./dispatch";
-import { FNCustomer } from "./types/FNCustomer";
+import { FNCustomer } from "./types/index";
 import { Util } from "./utils";
 
 type CustomerResult = {
@@ -25,7 +25,7 @@ export class Customers {
         let path = this.path;
         if (filter)
             path += '?filter=' + filter;
-        const result = await this.util.getAllPages<FNCustomer>(path, 'Customers', this.dispatch);
+        const result = await this.util.getAllPages<FNCustomer>(path, this.dispatch);
         return result;
     }
 
